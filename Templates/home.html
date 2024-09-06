@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Candara, sans-serif;
+            background-color: #f1f3f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #2874f0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            width: 50%;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            width: 48%;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .predict-button {
+            background-color: #2874f0;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .predict-button:hover {
+            background-color: #0056b3;
+        }
+
+        .prediction-result {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e6f7ff;
+            border: 1px solid #b3e0ff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            color: #004080;
+            display: none; /* Hidden by default */
+        }
+
+        .reload-button {
+            background-color: #2874f0;
+            color: white;
+            padding: 5px 10px; /* Reduced padding */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 14px; /* Reduced font size */
+        }
+
+        .reload-button:hover {
+            background-color: #0056b3;
+        }
+
+        .slider-label {
+            text-align: left;
+        }
+
+        .reload-icon {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Customer Details for Predicting Term Deposit Subscription</h1>
+    <form id="predictionForm" action="/predict" method="post">
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" placeholder="Age" required>
+        </div>
+
+        <div class="form-group">
+            <label for="job">Job</label>
+            <select id="job" name="job" required>
+                <option value="" disabled selected>Job</option>
+                <option value="housemaid">Housemaid</option>
+                <option value="services">Services</option>
+                <option value="admin.">Admin</option>
+                <option value="blue-collar">Blue-collar</option>
+                <option value="technician">Technician</option>
+                <option value="retired">Retired</option>
+                <option value="management">Management</option>
+                <option value="unemployed">Unemployed</option>
+                <option value="self-employed">Self-employed</option>
+                <option value="entrepreneur">Entrepreneur</option>
+                <option value="student">Student</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="marital">Marital Status</label>
+            <select id="marital" name="marital" required>
+                <option value="" disabled selected>Marital Status</option>
+                <option value="married">Married</option>
+                <option value="single">Single</option>
+                <option value="divorced">Divorced</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="education">Education</label>
+            <select id="education" name="education" required>
+                <option value="" disabled selected>Education</option>
+                <option value="basic.4y">Basic 4y</option>
+                <option value="high.school">High School</option>
+                <option value="basic.6y">Basic 6y</option>
+                <option value="basic.9y">Basic 9y</option>
+                <option value="professional.course">Professional Course</option>
+                <option value="university.degree">University Degree</option>
+                <option value="illiterate">Illiterate</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="default">Has credit in default?</label>
+            <select id="default" name="default" required>
+                <option value="" disabled selected>Default</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="housing">Has housing loan?</label>
+            <select id="housing" name="housing" required>
+                <option value="" disabled selected>Housing</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="loan">Has personal loan?</label>
+            <select id="loan" name="loan" required>
+                <option value="" disabled selected>Loan</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="month_day">Last contact date </label>
+            <input type="date" id="month_day" name="month_day" required>
+        </div>
+
+        <div class="form-group">
+            <label for="previous">Number of contacts performed before this campaign</label>
+            <input type="range" id="previous" name="previous" min="0" max="20" step="1" value="0">
+            <span class="slider-label">0</span>
+        </div>
+
+        <div class="form-group">
+            <label for="pdays">Number of days since the client was last contacted from a previous campaign</label>
+            <input type="number" id="pdays" name="pdays" placeholder="Previous Days" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cons.price.idx">Consumer Price Index</label>
+            <input type="number" step="0.01" id="cons.price.idx" name="cons.price.idx" placeholder="Consumer Price Index" required>
+        </div>
+
+        <div class="form-group">
+            <label for="euribor3m">Euribor 3 Month Rate</label>
+            <input type="number" step="0.01" id="euribor3m" name="euribor3m" placeholder="Euribor 3 Month Rate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Last contact duration (seconds)</label>
+            <input type="number" id="duration" name="duration" placeholder="Last contact duration (seconds)" required>
+        </div>
+
+        <div class="form-group">
+            <label for="campaign">Number of contacts performed during this campaign
+            </label>
+          <input type="number" id="campaign" name="campaign" placeholder="Number of Campaigns" required>
+
+           <!--   <input type="range" id="campaign" name="campaign" min="0" max="60" step="1" value="0">
+            <span class="slider-label-camp">0</span>-->
+        </div>
+
+        <button type="submit" class="predict-button" id="predictButton">
+            Predict
+        </button>
+        <button type="button" class="reload-button" id="reloadButton" onclick="window.location.reload();">
+            <i class="fas fa-sync-alt reload-icon"></i>
+        </button>
+    </form>
+
+    <script>
+        // Update slider label dynamically
+        const slider = document.getElementById("previous");
+        const output = document.querySelector(".slider-label");
+        output.textContent = slider.value;
+
+        slider.oninput = function () {
+            output.textContent = this.value;
+        };
+
+        // Show prediction result and hide form after prediction
+        document.getElementById('predictionForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the default form submission
+            
+            // Simulate an API response
+            const predictionResult = Math.random() < 0.5 ? 
+                'The customer will subscribe to the term deposit.' : 
+                'The customer will not subscribe to the term deposit.'; // Replace with actual result from server
+
+            // Update button text with prediction result
+            const predictButton = document.getElementById('predictButton');
+            predictButton.textContent = predictionResult;
+            predictButton.disabled = true; // Disable the button after prediction
+
+            // Show the reload button after 3 seconds
+            setTimeout(() => {
+                document.getElementById('reloadButton').style.display = 'block';
+            }, 3000);
+        });
+    </script>
+</body>
+
+</html>
